@@ -1,0 +1,10 @@
+{
+  "command_id": "a0000000-0000-4000-8000-000000000003",
+  "session_id": "sess-worker-playwright-01",
+  "command_type": "DOWNLOAD_OUTPUT",
+  "timestamp_utc": "2026-08-16T12:03:00Z",
+  "params": {
+    "provider_job_id": "flow-task-123456",
+    "destination_storage_uri": "https://storage.aivideofactory.com/projects/p1/takes/take_01.mp4"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "request_id": "22222222-3333-4444-8555-666666666666",
+  "job_id": "88888888-8888-4888-8888-888888888888",
+  "prompt_version_id": "99999999-9999-4999-8999-999999999999",
+  "provider_id": "google-flow-pro",
+  "positive_prompt": "Hero character turns towards camera in neon rain, maintaining facial features and style.",
+  "aspect_ratio": "9:16",
+  "duration_seconds": 6,
+  "idempotency_key": "idemp-req-multi-asset-16-char-minimum",
+  "attempt_index": 1,
+  "asset_references": [
+    {
+      "asset_id": "44444444-4444-4444-8444-444444444444",
+      "storage_uri": "https://storage.aivideofactory.com/assets/char_face.png",
+      "mime_type": "image/png",
+      "role": "CHARACTER"
+    },
+    {
+      "asset_id": "55555555-5555-4555-8555-555555555555",
+      "storage_uri": "https://storage.aivideofactory.com/assets/style_ref.png",
+      "mime_type": "image/png",
+      "role": "STYLE"
+    }
+  ],
+  "timestamp_utc": "2026-08-16T12:05:00Z"
+}

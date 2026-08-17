@@ -1,0 +1,614 @@
+{
+  "$id": "https://schemas.aivideofactory.com/v1/domain-entities.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AVF Canonical Domain Entities Schema",
+  "description": "Canonical entities for AI Video Factory core state, creative lineage, prompt compiler, generation jobs, and media takes.",
+  "type": "object",
+  "$defs": {
+    "UUID": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+    },
+    "Timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "CanonicalLifecycleStatus": {
+      "type": "string",
+      "enum": [
+        "QUEUED",
+        "RESERVED",
+        "RUNNING",
+        "COMPLETED",
+        "FAILED",
+        "CANCELLED",
+        "RECONCILED"
+      ]
+    },
+    "ExecutionStage": {
+      "type": "string",
+      "enum": [
+        "WAITING_FOR_ASSETS",
+        "PROMPT_READY",
+        "BUDGET_RESERVED",
+        "SUBMITTING",
+        "SUBMITTED",
+        "GENERATING",
+        "DOWNLOADING",
+        "DOWNLOADED",
+        "QC_RUNNING",
+        "APPROVED",
+        "EXECUTION_FAILED",
+        "QC_REJECTED",
+        "TIMEOUT",
+        "ABORTED_BY_USER",
+        "ABORTED_BY_SYSTEM",
+        "RECONCILED_SUCCESS",
+        "RECONCILED_TERMINAL"
+      ]
+    },
+    "NormalizedError": {
+      "type": "object",
+      "required": [
+        "code",
+        "message",
+        "retry_category"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "PROVIDER_RATE_LIMIT",
+            "AUTH_REQUIRED",
+            "SECURITY_CHALLENGE",
+            "UI_CHANGED",
+            "BUDGET_EXHAUSTED",
+            "UNSUPPORTED_CAPABILITY",
+            "NETWORK_TIMEOUT",
+            "BAD_REQUEST",
+            "PROVIDER_INTERNAL_ERROR"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "retry_category": {
+          "type": "string",
+          "enum": [
+            "TRANSIENT",
+            "PERMANENT",
+            "POLICY_BLOCKED",
+            "RESOURCE_EXHAUSTED"
+          ]
+        },
+        "suggested_backoff_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "raw_provider_error": {
+          "type": "object"
+        }
+      }
+    },
+    "Project": {
+      "type": "object",
+      "required": [
+        "project_id",
+        "title",
+        "created_at",
+        "entity_version"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "project_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "aspect_ratio": {
+          "type": "string",
+          "enum": [
+            "16:9",
+            "9:16",
+            "1:1",
+            "2.39:1"
+          ]
+        },
+        "default_provider": {
+          "type": "string"
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "updated_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "entity_version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "Shot": {
+      "type": "object",
+      "required": [
+        "shot_id",
+        "project_id",
+        "shot_number",
+        "created_at",
+        "entity_version"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "shot_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "project_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "shot_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "title": {
+          "type": "string"
+        },
+        "current_version_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "updated_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "entity_version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "ShotVersion": {
+      "type": "object",
+      "required": [
+        "shot_version_id",
+        "shot_id",
+        "version_number",
+        "duration_ms",
+        "action_description",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "shot_version_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "shot_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "version_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 100
+        },
+        "action_description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "camera_motion": {
+          "type": "string"
+        },
+        "environment_settings": {
+          "type": "string"
+        },
+        "character_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UUID"
+          }
+        },
+        "style_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UUID"
+          }
+        },
+        "asset_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UUID"
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "continuity_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UUID"
+          }
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "PromptVersion": {
+      "type": "object",
+      "required": [
+        "prompt_version_id",
+        "shot_id",
+        "shot_version_id",
+        "version_number",
+        "target_provider",
+        "positive_prompt",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "prompt_version_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "shot_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "shot_version_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "version_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "target_provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "positive_prompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "negative_prompt": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "ast_snapshot": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "GenerationJob": {
+      "type": "object",
+      "required": [
+        "job_id",
+        "project_id",
+        "shot_id",
+        "shot_version_id",
+        "prompt_version_id",
+        "provider_id",
+        "idempotency_key",
+        "status",
+        "attempt_index",
+        "requested_at",
+        "entity_version"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "job_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "project_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "shot_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "shot_version_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "prompt_version_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "provider_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "idempotency_key": {
+          "type": "string",
+          "minLength": 16
+        },
+        "status": {
+          "$ref": "#/$defs/CanonicalLifecycleStatus"
+        },
+        "execution_stage": {
+          "$ref": "#/$defs/ExecutionStage"
+        },
+        "attempt_index": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "max_attempts": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "provider_job_id": {
+          "type": "string"
+        },
+        "flow_track": {
+          "type": "string",
+          "enum": [
+            "TRACK_A_EXTENSION",
+            "TRACK_A_PLAYWRIGHT",
+            "TRACK_B_FLOWKIT"
+          ]
+        },
+        "lease_token": {
+          "$ref": "#/$defs/UUID"
+        },
+        "lease_expires_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "estimated_cost_credits": {
+          "type": "number",
+          "minimum": 0
+        },
+        "actual_cost_credits": {
+          "type": "number",
+          "minimum": 0
+        },
+        "normalized_error": {
+          "$ref": "#/$defs/NormalizedError"
+        },
+        "requested_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "submitted_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "completed_at": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "entity_version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "Take": {
+      "type": "object",
+      "required": [
+        "take_id",
+        "shot_id",
+        "shot_version_id",
+        "prompt_version_id",
+        "job_id",
+        "take_number",
+        "storage_uri",
+        "mime_type",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "take_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "shot_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "shot_version_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "prompt_version_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "job_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "take_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "storage_uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "mime_type": {
+          "type": "string",
+          "enum": [
+            "video/mp4",
+            "video/webm",
+            "video/quicktime"
+          ]
+        },
+        "byte_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "checksum_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 100
+        },
+        "qc_status": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "PASSED",
+            "REJECTED"
+          ]
+        },
+        "qc_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "AssetVersion": {
+      "type": "object",
+      "required": [
+        "asset_version_id",
+        "asset_id",
+        "version_number",
+        "storage_uri",
+        "mime_type",
+        "byte_size",
+        "checksum_sha256",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "asset_version_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "asset_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "version_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "storage_uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "mime_type": {
+          "type": "string"
+        },
+        "byte_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "checksum_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "USER_UPLOAD",
+            "AI_GENERATED",
+            "STOCK_LIBRARY",
+            "SYNTHETIC"
+          ]
+        },
+        "license_type": {
+          "type": "string"
+        },
+        "rights_attribution": {
+          "type": "string"
+        },
+        "origin_uri": {
+          "type": "string"
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "CharacterVersion": {
+      "type": "object",
+      "required": [
+        "character_version_id",
+        "character_id",
+        "name",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "character_version_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "character_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "face_embedding_hash": {
+          "type": "string"
+        },
+        "reference_asset_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UUID"
+          }
+        },
+        "custom_attributes": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    },
+    "StyleVersion": {
+      "type": "object",
+      "required": [
+        "style_version_id",
+        "style_id",
+        "name",
+        "created_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "style_version_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "style_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lora_weights_uri": {
+          "type": "string"
+        },
+        "style_prompt_prefix": {
+          "type": "string"
+        },
+        "negative_prompt_additions": {
+          "type": "string"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "created_at": {
+          "$ref": "#/$defs/Timestamp"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "command_id": "a0000000-0000-4000-8000-000000000005",
+  "session_id": "sess-worker-playwright-01",
+  "command_type": "SUBMIT_PROMPT",
+  "status": "FAILED",
+  "timestamp_utc": "2026-08-16T12:01:05Z",
+  "duration_ms": 1200,
+  "error": {
+    "code": "SECURITY_CHALLENGE",
+    "message": "Cloudflare challenge detected on Flow submission page.",
+    "retry_category": "POLICY_BLOCKED",
+    "raw_details": {
+      "challenge_type": "turnstile",
+      "action_required": "HUMAN_OPERATOR_SOLVE"
+    }
+  }
+}

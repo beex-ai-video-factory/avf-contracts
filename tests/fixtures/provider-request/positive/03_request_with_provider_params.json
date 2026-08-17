@@ -1,0 +1,18 @@
+{
+  "request_id": "33333333-4444-4555-8666-777777777777",
+  "job_id": "88888888-8888-4888-8888-888888888888",
+  "prompt_version_id": "99999999-9999-4999-8999-999999999999",
+  "provider_id": "google-flow-pro",
+  "positive_prompt": "Epic camera flythrough across cybernetic city.",
+  "aspect_ratio": "2.39:1",
+  "duration_seconds": 8,
+  "idempotency_key": "idemp-req-provider-params-key-12345",
+  "attempt_index": 2,
+  "provider_parameters": {
+    "camera_fov": 85,
+    "motion_bucket_id": 127,
+    "fps": 24,
+    "noise_aug_strength": 0.05
+  },
+  "timestamp_utc": "2026-08-16T12:10:00Z"
+}

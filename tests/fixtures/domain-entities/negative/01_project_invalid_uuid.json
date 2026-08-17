@@ -1,0 +1,6 @@
+{
+  "project_id": "invalid-uuid-not-a-valid-v4-uuid",
+  "title": "Invalid Project",
+  "created_at": "2026-08-16T12:00:00Z",
+  "entity_version": 1
+}

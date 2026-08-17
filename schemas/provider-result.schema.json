@@ -1,0 +1,132 @@
+{
+  "$id": "https://schemas.aivideofactory.com/v1/provider-result.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AVF Generic Provider Result Schema",
+  "description": "Canonical response returned by provider adapters with multi-tier status and normalized error taxonomy.",
+  "type": "object",
+  "required": [
+    "request_id",
+    "job_id",
+    "provider_id",
+    "status",
+    "timestamp_utc"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "job_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "provider_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider_job_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "SUCCESS",
+        "FAILED",
+        "PENDING",
+        "RUNNING"
+      ]
+    },
+    "generation_status": {
+      "type": "string",
+      "enum": [
+        "QUEUED",
+        "PROCESSING",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED"
+      ]
+    },
+    "progress_percent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "output_uri": {
+      "type": "string",
+      "format": "uri"
+    },
+    "output_metadata": {
+      "type": "object",
+      "properties": {
+        "mime_type": {
+          "type": "string"
+        },
+        "byte_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "checksum_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 100
+        }
+      }
+    },
+    "cost_credits_used": {
+      "type": "number",
+      "minimum": 0
+    },
+    "error": {
+      "type": "object",
+      "required": [
+        "code",
+        "message",
+        "retry_category"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "PROVIDER_RATE_LIMIT",
+            "AUTH_REQUIRED",
+            "SECURITY_CHALLENGE",
+            "UI_CHANGED",
+            "BUDGET_EXHAUSTED",
+            "UNSUPPORTED_CAPABILITY",
+            "NETWORK_TIMEOUT",
+            "BAD_REQUEST",
+            "PROVIDER_INTERNAL_ERROR"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "retry_category": {
+          "type": "string",
+          "enum": [
+            "TRANSIENT",
+            "PERMANENT",
+            "POLICY_BLOCKED",
+            "RESOURCE_EXHAUSTED"
+          ]
+        },
+        "suggested_backoff_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "raw_provider_error": {
+          "type": "object"
+        }
+      }
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
