@@ -1,0 +1,15 @@
+{
+  "command_id": "a0000000-0000-4000-8000-000000000003",
+  "session_id": "sess-worker-playwright-01",
+  "command_type": "DOWNLOAD_OUTPUT",
+  "status": "SUCCESS",
+  "timestamp_utc": "2026-08-16T12:03:15Z",
+  "duration_ms": 15200,
+  "result": {
+    "provider_job_id": "flow-task-123456",
+    "output_uri": "https://storage.aivideofactory.com/projects/p1/takes/take_01.mp4",
+    "byte_size": 24576000,
+    "checksum_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "duration_ms": 5000
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "command_id": "a0000000-0000-4000-8000-000000000002",
+  "session_id": "sess-worker-playwright-01",
+  "command_type": "SUBMIT_PROMPT",
+  "status": "SUCCESS",
+  "timestamp_utc": "2026-08-16T12:01:10Z",
+  "duration_ms": 3200,
+  "result": {
+    "provider_job_id": "flow-run-987654",
+    "submitted_at": "2026-08-16T12:01:08Z",
+    "status": "QUEUED"
+  }
+}

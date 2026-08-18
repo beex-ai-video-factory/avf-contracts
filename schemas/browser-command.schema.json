@@ -1,0 +1,357 @@
+{
+  "$id": "https://schemas.aivideofactory.com/v1/browser-command.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AVF FlowExecutionPort Command Schema",
+  "description": "Strict discriminated command contract for Google Flow browser worker execution operations (Track A and Track B).",
+  "type": "object",
+  "required": [
+    "command_id",
+    "command_type",
+    "session_id",
+    "timestamp_utc",
+    "params"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "command_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timeout_ms": {
+      "type": "integer",
+      "minimum": 1000,
+      "default": 60000
+    },
+    "command_type": {
+      "type": "string",
+      "enum": [
+        "ENSURE_SESSION",
+        "OPEN_FLOW",
+        "CREATE_OR_SELECT_PROJECT",
+        "ATTACH_ASSETS",
+        "SET_GENERATION_OPTIONS",
+        "SUBMIT_PROMPT",
+        "READ_GENERATION_STATE",
+        "DOWNLOAD_OUTPUT",
+        "CAPTURE_DIAGNOSTIC",
+        "CANCEL"
+      ]
+    },
+    "params": {
+      "type": "object"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "command_type": {
+          "const": "ENSURE_SESSION"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "account_alias"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "account_alias": {
+              "type": "string",
+              "minLength": 1
+            },
+            "headless": {
+              "type": "boolean",
+              "default": false
+            },
+            "profile_directory": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "command_type": {
+          "const": "OPEN_FLOW"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "flow_url"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "flow_url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "wait_for_selector": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "command_type": {
+          "const": "CREATE_OR_SELECT_PROJECT"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "project_name"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "project_name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "project_id": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "command_type": {
+          "const": "ATTACH_ASSETS"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "assets"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "assets": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": [
+                  "asset_id",
+                  "storage_uri",
+                  "mime_type",
+                  "role"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "asset_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "storage_uri": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "mime_type": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "CHARACTER",
+                      "STYLE",
+                      "START_FRAME",
+                      "END_FRAME",
+                      "GENERAL"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "command_type": {
+          "const": "SET_GENERATION_OPTIONS"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "aspect_ratio"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "aspect_ratio": {
+              "type": "string",
+              "enum": [
+                "16:9",
+                "9:16",
+                "1:1",
+                "2.39:1"
+              ]
+            },
+            "resolution": {
+              "type": "string",
+              "enum": [
+                "720p",
+                "1080p",
+                "4k"
+              ]
+            },
+            "duration_seconds": {
+              "type": "number",
+              "minimum": 1
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "model_version": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "command_type": {
+          "const": "SUBMIT_PROMPT"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "prompt_text",
+            "idempotency_key"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "prompt_text": {
+              "type": "string",
+              "minLength": 1
+            },
+            "negative_prompt": {
+              "type": "string"
+            },
+            "idempotency_key": {
+              "type": "string",
+              "minLength": 16
+            },
+            "attempt_index": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "command_type": {
+          "const": "READ_GENERATION_STATE"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "provider_job_id"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "provider_job_id": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "command_type": {
+          "const": "DOWNLOAD_OUTPUT"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "provider_job_id",
+            "destination_storage_uri"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "provider_job_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "destination_storage_uri": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "command_type": {
+          "const": "CAPTURE_DIAGNOSTIC"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "destination_diagnostic_uri"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "destination_diagnostic_uri": {
+              "type": "string",
+              "format": "uri"
+            },
+            "include_screenshot": {
+              "type": "boolean",
+              "default": true
+            },
+            "include_har": {
+              "type": "boolean",
+              "default": false
+            },
+            "include_console_logs": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "command_type": {
+          "const": "CANCEL"
+        },
+        "params": {
+          "type": "object",
+          "required": [
+            "provider_job_id"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "provider_job_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reason": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

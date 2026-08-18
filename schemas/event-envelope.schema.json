@@ -1,0 +1,62 @@
+{
+  "$id": "https://schemas.aivideofactory.com/v1/event-envelope.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AVF Common Event Envelope Schema",
+  "description": "Canonical distributed event envelope with OpenTelemetry tracing headers and lowercase dotted topic regex.",
+  "type": "object",
+  "required": [
+    "event_id",
+    "event_type",
+    "aggregate_id",
+    "aggregate_version",
+    "timestamp_utc",
+    "correlation_id",
+    "schema_version",
+    "payload"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "event_type": {
+      "type": "string",
+      "pattern": "^avf\\.[a-z0-9_-]+(\\.[a-z0-9_-]+)+$"
+    },
+    "aggregate_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "aggregate_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "correlation_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "trace_id": {
+      "type": "string",
+      "pattern": "^([0-9a-fA-F]{32}|[0-9a-fA-F-]{36})$"
+    },
+    "span_id": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{16}$"
+    },
+    "workflow_run_id": {
+      "type": "string"
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "payload": {
+      "type": "object"
+    }
+  }
+}

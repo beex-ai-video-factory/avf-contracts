@@ -1,0 +1,14 @@
+{
+  "event_id": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+  "event_type": "avf.worker.lease_renewed",
+  "aggregate_id": "worker-session-01",
+  "aggregate_version": 3,
+  "timestamp_utc": "2026-08-16T12:20:00Z",
+  "correlation_id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+  "schema_version": "1.0.0",
+  "payload": {
+    "worker_id": "worker-playwright-09",
+    "lease_token": "eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee",
+    "extended_seconds": 300
+  }
+}

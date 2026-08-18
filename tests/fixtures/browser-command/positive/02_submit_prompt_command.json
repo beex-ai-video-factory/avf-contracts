@@ -1,0 +1,13 @@
+{
+  "command_id": "a0000000-0000-4000-8000-000000000002",
+  "session_id": "sess-worker-playwright-01",
+  "command_type": "SUBMIT_PROMPT",
+  "timestamp_utc": "2026-08-16T12:01:00Z",
+  "timeout_ms": 120000,
+  "params": {
+    "prompt_text": "Cinematic drone tracking shot over ancient temple surrounded by cherry blossoms, golden hour lighting",
+    "negative_prompt": "grainy, text, watermark, bad anatomy",
+    "idempotency_key": "idemp-browser-cmd-key-0123456789",
+    "attempt_index": 1
+  }
+}

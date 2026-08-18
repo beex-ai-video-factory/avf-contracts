@@ -1,0 +1,16 @@
+{
+  "event_id": "cccccccc-cccc-4ccc-8ccc-cccccccccccc",
+  "event_type": "avf.take.qc_completed",
+  "aggregate_id": "take-bbbbbbbb",
+  "aggregate_version": 2,
+  "timestamp_utc": "2026-08-16T12:15:00Z",
+  "correlation_id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+  "trace_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "span_id": "bbbbbbbbbbbbbbbb",
+  "schema_version": "1.0.0",
+  "payload": {
+    "take_id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+    "qc_score": 98.2,
+    "qc_status": "PASSED"
+  }
+}
