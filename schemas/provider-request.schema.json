@@ -1,0 +1,114 @@
+{
+  "$id": "https://schemas.aivideofactory.com/v1/provider-request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AVF Generic Provider Request Schema",
+  "description": "Canonical request payload for video generation submitted to provider adapters.",
+  "type": "object",
+  "required": [
+    "request_id",
+    "job_id",
+    "prompt_version_id",
+    "provider_id",
+    "positive_prompt",
+    "idempotency_key",
+    "attempt_index",
+    "timestamp_utc"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "job_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "prompt_version_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "provider_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "positive_prompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "negative_prompt": {
+      "type": "string"
+    },
+    "aspect_ratio": {
+      "type": "string",
+      "enum": [
+        "16:9",
+        "9:16",
+        "1:1",
+        "2.39:1"
+      ],
+      "default": "16:9"
+    },
+    "duration_seconds": {
+      "type": "number",
+      "minimum": 1,
+      "default": 5
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 16
+    },
+    "attempt_index": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 1
+    },
+    "asset_references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "asset_id",
+          "storage_uri",
+          "mime_type",
+          "role"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "asset_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "storage_uri": {
+            "type": "string",
+            "format": "uri"
+          },
+          "mime_type": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "CHARACTER",
+              "STYLE",
+              "START_FRAME",
+              "END_FRAME",
+              "GENERAL"
+            ]
+          }
+        }
+      }
+    },
+    "provider_parameters": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

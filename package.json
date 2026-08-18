@@ -1,0 +1,45 @@
+{
+  "name": "@avf/contracts",
+  "version": "1.0.0",
+  "description": "AI Video Factory Layer 0 Canonical Contracts, JSON Schemas, TypeScript Types, Runtime Validators, and Conformance Harness",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "schemas"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "build:types": "ts-node scripts/compile-schemas.ts",
+    "lint": "eslint 'src/**/*.ts' 'tests/**/*.ts'",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "validate:fixtures": "ts-node scripts/validate-fixtures.ts"
+  },
+  "keywords": [
+    "avf",
+    "contracts",
+    "json-schema",
+    "validation",
+    "video-factory"
+  ],
+  "author": "AI Video Factory Architecture & Engineering",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.17.19",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "jest": "^29.7.0",
+    "json-schema-to-typescript": "^15.0.4",
+    "prettier": "^3.5.1",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}

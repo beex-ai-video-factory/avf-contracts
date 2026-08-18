@@ -1,0 +1,18 @@
+{
+  "request_id": "33333333-4444-4555-8666-777777777777",
+  "job_id": "88888888-8888-4888-8888-888888888888",
+  "provider_id": "google-flow-pro",
+  "status": "FAILED",
+  "generation_status": "FAILED",
+  "error": {
+    "code": "PROVIDER_RATE_LIMIT",
+    "message": "Too many concurrent video generation jobs in flight for tenant.",
+    "retry_category": "TRANSIENT",
+    "suggested_backoff_ms": 5000,
+    "raw_provider_error": {
+      "http_status": 429,
+      "quota_metric": "concurrent_renders_per_user"
+    }
+  },
+  "timestamp_utc": "2026-08-16T12:00:15Z"
+}

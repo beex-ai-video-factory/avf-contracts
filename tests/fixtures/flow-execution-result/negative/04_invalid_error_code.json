@@ -1,0 +1,12 @@
+{
+  "command_id": "a0000000-0000-4000-8000-000000000001",
+  "session_id": "sess-worker-playwright-01",
+  "command_type": "ENSURE_SESSION",
+  "status": "FAILED",
+  "timestamp_utc": "2026-08-16T12:00:05Z",
+  "error": {
+    "code": "UNKNOWN_CUSTOM_ERROR_CODE",
+    "message": "Custom error not part of canonical 9 error codes",
+    "retry_category": "TRANSIENT"
+  }
+}

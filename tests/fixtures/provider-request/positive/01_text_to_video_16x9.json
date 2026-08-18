@@ -1,0 +1,14 @@
+{
+  "request_id": "11111111-2222-4333-8444-555555555555",
+  "job_id": "88888888-8888-4888-8888-888888888888",
+  "prompt_version_id": "99999999-9999-4999-8999-999999999999",
+  "provider_id": "google-flow-pro",
+  "positive_prompt": "Futuristic hovercar gliding through misty skyscrapers at dusk, cinematic 4k",
+  "negative_prompt": "lowres, stutter, artifacts",
+  "aspect_ratio": "16:9",
+  "duration_seconds": 5,
+  "seed": 123456,
+  "idempotency_key": "idemp-req-sha256-valid-minimum-16-chars",
+  "attempt_index": 1,
+  "timestamp_utc": "2026-08-16T12:00:00Z"
+}

@@ -1,0 +1,11 @@
+{
+  "event_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+  "event_type": "avf.generation.job_created",
+  "aggregate_id": "job-88888888",
+  "aggregate_version": 1,
+  "timestamp_utc": "2026-08-16T12:00:00Z",
+  "correlation_id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+  "schema_version": "1.0.0",
+  "payload": {},
+  "unauthorized_extra_field": "disallowed by additionalProperties false"
+}
